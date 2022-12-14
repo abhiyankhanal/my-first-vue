@@ -1,17 +1,44 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+ <h1>Reaction Timer</h1>
+ <button @click = 'start' :disabled="play">play</button>
+ <Block v-if="play" :delay='delay' @end="endGame" />
+ <Score v-if='showScore' :score='score' />
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import Block from './components/Block.vue'
+import Score from './components/Score.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
-  }
+    Block,
+    Score
+  },
+  data() {
+    return {
+      play: false,
+      delay: 0,
+      score: 0,
+      showScore: false
+    }
+  },
+  methods: {
+    start(){
+      this.showScore = false;
+      this.play = true;
+      this.delay = 2000 + Math.random() * 5000;
+      console.log(this.delay);
+    },
+    endGame(reactionTime){
+      this.score = reactionTime;
+      this.play = false;
+      this.showScore = true
+      console.log(this.score);
+    }
+    
+  },
 });
 </script>
 
